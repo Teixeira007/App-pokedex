@@ -58,10 +58,9 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
             List<String> urlSplit = Arrays.asList(pokemon.getUrl().split("/"));
             int id = Integer.parseInt(urlSplit.get(6));
             pokemon.setId(id);
-//            System.out.println("teste");
-//            System.out.println("nome: "+pokemon.getName()+" id: "+pokemon.getId());
+
             Picasso.get()
-                    .load("https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/1.svg")
+                    .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+pokemon.getId()+".png")
                     .into(imagePokemon);
 
         }
