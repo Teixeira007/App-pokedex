@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -12,7 +13,7 @@ import com.home.pokedex.data.model.Pokemon;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements PokemonContract.View{
+public class MainActivity extends AppCompatActivity implements PokemonContract.View, PokemonContract.ViewDetails, PokemonAdapter.ItemACLicar {
 
     private ImageView logo;
     private RecyclerView recyclerView;
@@ -27,14 +28,14 @@ public class MainActivity extends AppCompatActivity implements PokemonContract.V
 
         configAdapter();
 
-        present = new PokemonPresent(this);
+        present = new PokemonPresent(this, this);
         present.getListPokemons();
     }
 
 
     public void configAdapter(){
         recyclerView = findViewById(R.id.my_recycler_view);
-        adapter = new PokemonAdapter();
+        adapter = new PokemonAdapter(this);
 
         RecyclerView.LayoutManager grideLayout = new GridLayoutManager(this, 2);
 
@@ -53,9 +54,23 @@ public class MainActivity extends AppCompatActivity implements PokemonContract.V
     }
 
 
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         present.destoryView();
+    }
+
+    @Override
+    public void itemClicado(Pokemon pokemon) {
+        Intent intent = new Intent(this, DetalhesPokemonActivity.class);
+        intent.putExtra(DetalhesPokemonActivity.POKEMON_EXTRA, pokemon);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showDetailsPokemon(Pokemon pokemon) {
+
     }
 }

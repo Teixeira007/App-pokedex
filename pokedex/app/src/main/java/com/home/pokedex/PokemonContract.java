@@ -14,11 +14,17 @@ public interface PokemonContract {
         void showMessageError();
 
 
+
+    }
+
+    interface  ViewDetails{
+        void showDetailsPokemon(Pokemon pokemon);
     }
 
     interface Present{
         void getListPokemons();
 
+        void getPokemon(Integer id);
 
         void destoryView();
     }

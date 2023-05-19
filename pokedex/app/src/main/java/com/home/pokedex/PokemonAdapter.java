@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.home.pokedex.data.model.Pokemon;
 import com.squareup.picasso.Picasso;
 
+import java.net.PortUnreachableException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,8 +20,10 @@ import java.util.List;
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
 
     List<Pokemon> pokemons;
+    private static ItemACLicar itemACLicar;
 
-    public PokemonAdapter() {
+    public PokemonAdapter(ItemACLicar itemACLicar) {
+        this.itemACLicar = itemACLicar;
         this.pokemons = new ArrayList<>();
     }
 
@@ -46,14 +49,27 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         private ImageView imagePokemon;
         private TextView namePokemon;
 
+        private Pokemon pokemon;
+
         public PokemonViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imagePokemon = itemView.findViewById(R.id.image_pokemon);
             namePokemon = itemView.findViewById(R.id.name_pokemon);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(itemACLicar != null){
+                        itemACLicar.itemClicado(pokemon);
+                    }
+                }
+            });
+
         }
 
         public void bind(Pokemon pokemon){
+            this.pokemon = pokemon;
             namePokemon.setText(pokemon.getName());
             List<String> urlSplit = Arrays.asList(pokemon.getUrl().split("/"));
             int id = Integer.parseInt(urlSplit.get(6));
@@ -69,6 +85,13 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
     public void setList(List<Pokemon> pokemons){
         this.pokemons = pokemons;
         notifyDataSetChanged();
+    }
+
+
+
+
+    public interface ItemACLicar{
+        void itemClicado(Pokemon pokemon);
     }
 
 
